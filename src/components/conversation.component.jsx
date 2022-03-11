@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Card, Col, Row } from "antd";
 import styled from "styled-components";
 
+// css for card
 const StyledCard = styled(Card)`
   border: none;
   transition: all 0.3s;
@@ -22,11 +23,14 @@ const StyledCard = styled(Card)`
   }
 `;
 
+// css for Avatar
+
 const StyledAvatar = styled(Avatar)`
   margin-right: 12px;
   background-color: #5ac8fa;
 `;
 
+//css for username
 const UserName = styled.span`
   margin-bottom: 4px;
   font-size: 16px;

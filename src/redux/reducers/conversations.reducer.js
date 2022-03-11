@@ -3,10 +3,12 @@ import {
   ADD_MESSAGE,
 } from "../constants/conversations.constants";
 
+//initial state
 let initialState = {
   chats: {},
 };
 
+// chat reducer
 const chatsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_CONVERSATION:

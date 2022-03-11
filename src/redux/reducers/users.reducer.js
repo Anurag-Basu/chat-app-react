@@ -9,6 +9,8 @@ let initialState = {
   },
 };
 
+
+// userReducer
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USERS:
