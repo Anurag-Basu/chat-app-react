@@ -9,6 +9,7 @@ import _ from "lodash";
 import { Conversation, User } from "../../components";
 import { users as USERS } from "../../constants/users";
 
+
 import {
   HomeContainer,
   ChatContainer,
@@ -24,26 +25,36 @@ import { addChat, fetchUsers } from "../../redux/actions/users.actions";
 import { createConversation } from "../../redux/actions/conversations.actions";
 
 const Home = () => {
+  // Getting chat id
   const { userId } = useParams();
 
+  // getting user and current user
   const { users, currentUser } = useSelector((state) => state.users);
   const { chats } = useSelector((state) => state.chats);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // state fot filtered chats
   const [filterdChats, setFilteredChats] = useState([]);
+
+  // state for showing modal
   const [showModal, setShowModal] = useState(false);
+
+  // other user 
   const [otherUser, setOtherUser] = useState();
 
-  console.log({ users, currentUser, chats, c: chats[userId] });
-
+  // create conversation using user email
   const create = (email) => {
     setShowModal(false);
+
+    // redirecting to previous chat if present 
     const prevChat = currentUser.chats.find((chat) => chat.email === email);
     if (prevChat) {
       navigate(`/chat/${prevChat.id}`);
       return;
     }
+
+    // else creating new chat
     const chatId = uuidv4();
     dispatch(
       createConversation({
@@ -52,6 +63,8 @@ const Home = () => {
         id: chatId,
       })
     );
+
+    // adding chat id and email to user
     dispatch(
       addChat({
         email1: email,
@@ -62,6 +75,7 @@ const Home = () => {
     navigate(`/chat/${chatId}`);
   };
 
+  // handle search conversation
   const handleChange = (e) => {
     const value = e.target.value.toLowerCase();
     if (!value) {
@@ -77,11 +91,13 @@ const Home = () => {
     setFilteredChats(_.pickBy(chats, (_v, key) => filteredIds.includes(key)));
   };
 
+  // fetching users from constant file on mounting
   useEffect(() => {
     if (users.length > 1) return;
     dispatch(fetchUsers(USERS));
   }, [dispatch, users.length]);
 
+  // finding chat with chat id using params
   useEffect(() => {
     if (!chats || !chats[userId]) return;
     setFilteredChats(chats);
@@ -90,6 +106,8 @@ const Home = () => {
 
   return (
     <HomeContainer>
+
+      {/* User modal */}
       <StyledModal
         title="Create conversation"
         visible={showModal}
@@ -109,6 +127,7 @@ const Home = () => {
 
       <Sidebar>
         <div className="search-container">
+          {/* Search bar */}
           <StyledInput
             color="#8e8e8e"
             placeholder="Search for conversation"
@@ -118,8 +137,12 @@ const Home = () => {
         </div>
         <Flex>
           <div>Conversations</div>
+
+          {/* Button to add new conversation */}
           <StyledAdd onClick={() => setShowModal(true)} size={18} />
         </Flex>
+
+        {/* All conversation */}
         <ConversationConatiner>
           {_.keys(filterdChats).map((chat) => {
             const email = filterdChats[chat].emails[0];
@@ -132,8 +155,11 @@ const Home = () => {
           })}
         </ConversationConatiner>
       </Sidebar>
+
+      {/* Right side */}
       <ChatContainer>
         {chats && chats[userId] && otherUser && (
+          // chat header
           <ChatHeader>
             <Avatar
               style={{ backgroundColor: "#5ac8fa", fontSize: "14x" }}
@@ -147,6 +173,8 @@ const Home = () => {
             </Row>
           </ChatHeader>
         )}
+
+        {/* Showing chats in outlet component */}
         <Outlet />
       </ChatContainer>
     </HomeContainer>

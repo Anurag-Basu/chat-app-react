@@ -12,8 +12,11 @@ import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* Redux provider */}
     <Provider store={store}>
+      {/* Persisting redux store */}
       <PersistGate loading={null} persistor={persistor}>
+        {/* Router */}
         <Router>
           <App />
         </Router>

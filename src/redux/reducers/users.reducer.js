@@ -1,4 +1,6 @@
 import { FETCH_USERS, ADD_CHAT } from "../constants/user.constants";
+
+// Initial state of users
 let initialState = {
   users: [],
   currentUser: {
@@ -13,11 +15,14 @@ let initialState = {
 // userReducer
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
+    // fetch users
     case FETCH_USERS:
       return {
         ...state,
         users: [...action.payload],
       };
+
+    // add chat id to user
     case ADD_CHAT:
       const users = [...state.users];
       const index = users.findIndex(

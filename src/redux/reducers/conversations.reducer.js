@@ -11,6 +11,7 @@ let initialState = {
 // chat reducer
 const chatsReducer = (state = initialState, action) => {
   switch (action.type) {
+    // creating conversation
     case CREATE_CONVERSATION:
       const newConversation = {};
       newConversation[action.payload.id] = {
@@ -20,6 +21,7 @@ const chatsReducer = (state = initialState, action) => {
       return {
         chats: { ...state.chats, ...newConversation },
       };
+    // adding message to conversation
     case ADD_MESSAGE:
       const chatId = action.payload.id;
       const chats = { ...state.chats };
